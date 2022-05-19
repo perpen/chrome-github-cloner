@@ -49,13 +49,13 @@ Then you have to load it "unpacked":
 - Switch to "Developer mode" using the toggle top-right
 - Click on "Load unpacked" and navigate to the directory you cloned above.
 - Configure the command for starting your IDE in the extension's
-  options. To access the options page, click on its icon on the right of the
-  address bar, and select "Options"
+  options. To access the options page, click on the "..." menu to the right of
+  the extension entry, and select "Options"
 
   Command option - examples:
   - On macOS I used: `"/Users/me/devtools/vscode/1.29.1/Visual Studio Code.app/Contents/Resources/app/bin/code" --unity-launch "%s"`
   - On Linux: `code --unity-launch "%s"`
-  - My personal setting: I use here a script that creates a tmux window with
+  - My personal setting: I use here a script that creates a tmux window
     and opens my tui editor plus a shell.
 
   `%s` is a placeholder for the directory containing the cloned repo.
@@ -73,6 +73,8 @@ the github page. You can press F12 to open the console.
 
 For problems with the extension itself, you may have to open its background page,
 from chrome://extensions
+
+The python script logs to ~/.chrome-github-cloner.py.out
 
 The extension will require updates when the github pages change significantly.
 
