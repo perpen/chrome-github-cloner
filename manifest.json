@@ -1,0 +1,39 @@
+{
+  // Extension ID: gnbgamolecomomlkikafnkeibdfghgdj
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDcBHwzDvyBQ6bDppkIs9MP4ksKqCMyXQ/A52JivHZKh4YO/9vJsT3oaYhSpDCE9RPocOEQvwsHsFReW2nUEc6OLLyoCFFxIb7KkLGsmfakkut/fFdNJYh0xOTbSN8YvLWcqph09XAY2Y/f0AL7vfO1cuCqtkMt8hFrBGWxDdf9CQIDAQAB",
+
+  "name": "chrome-github-cloner",
+  "version": "1.1",
+  "description": "Clone repos and launch your IDE from github pages",
+  "permissions": ["activeTab", "declarativeContent", "storage", "nativeMessaging"],
+  "options_page": "options.html",
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+	"content_scripts": [
+		{
+			"matches": ["https://github.com/*"],
+			"js": ["content.js"]
+		}
+	],
+
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/get_started16.png",
+      "32": "images/get_started32.png",
+      "48": "images/get_started48.png",
+      "128": "images/get_started128.png"
+    }
+  },
+
+  "icons": {
+    "16": "images/get_started16.png",
+    "32": "images/get_started32.png",
+    "48": "images/get_started48.png",
+    "128": "images/get_started128.png"
+  },
+  "manifest_version": 3
+}
