@@ -1,8 +1,10 @@
 chrome-github-cloner
 ====================
 
-Chrome extension adding a button to github repo pages, which when clicked
+Chrome extension adding a "Local IDE" button to github repo pages, which when clicked
 clones the repo locally and starts any program on the resulting directory.
+
+![screenshot](screenshot.png)
 
 Tested on macOS, Linux. For Windows please submit PR, see below.
 
