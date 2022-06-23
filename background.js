@@ -47,18 +47,14 @@ chrome.runtime.onConnect.addListener((contentPort) => {
     contentPorts[url] = contentPort
     chrome.storage.sync.get('ideCommand', (data) => {
       const ideCommand = data.ideCommand
-      chrome.storage.sync.get('codeLocation', (data) => {
-        const codeLocation = data.codeLocation
-        sendNativeMessage({ url: url, ideCommand: ideCommand, codeLocation: codeLocation })
-      })
+      sendNativeMessage({ url: url, ideCommand: ideCommand })
     })
   })
 })
 
 chrome.runtime.onInstalled.addListener(function () {
   const defaultOptions = {
-    ideCommand: 'tmux2 chrome-github-cloner "%s"',
-    codeLocation: '%s/src'
+    ideCommand: 'tmux.clj chrome-github-cloner "%s"',
   }
   chrome.storage.sync.set(defaultOptions, function () {
     console.log('default options set')

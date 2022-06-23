@@ -2,29 +2,16 @@
 <html>
   <body>
     <div>
-        <p>Command to start IDE:</p>
+        <p>Command to clone the git URL and start IDE:</p>
         <div>
             <input type="text" size=120 id="ideCommand" name="ideCommand" value="">
         </div>
         <p>
-            %s will be replaced with the path to the cloned directory.
+            %s will be replaced with the git url.
             Use double-quotes to cope with any spaces in file paths.
             Do not use any single-quote.
         </p>
     </div>
-    <p/>
-    <p/>
-    <div>
-      <p>Parent directory for cloned repos:</p>
-        <div>
-            <input type="text" size=120 id="codeLocation" name="codeLocation" value="">
-        </div>
-        <p>
-            If present, %s will be replaced with the user's home directory.
-            No need to use quotes here.
-        </p>
-    </div>
-    <p/>
     <p/>
     <div id="status"></div>
   </body>

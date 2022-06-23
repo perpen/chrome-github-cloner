@@ -52,7 +52,27 @@ def mkdir_p(path):
             raise
 
 
-def start_project(git_url, ide_command, code_location):
+def start_project(git_url, ide_command):
+    '''
+    Launches command, updates the extension on status
+    '''
+    try:
+        def logger(line):
+            log(line)
+            send(git_url, 'output', line.strip())
+
+        logger('start_project')
+        cmd = ide_command % git_url
+        send(git_url, 'status', 'starting %s' % cmd)
+        run(['bash', '-c', "'%s'" % cmd], logger=logger)
+        send(git_url, 'status', 'complete')
+
+    except Exception as exc:
+        send(git_url, 'output', str(exc))
+        send(git_url, 'status', 'error')
+
+
+def start_project_with_clone(git_url, ide_command, code_location):
     '''
     Clones repo, launches command, updates the extension on status
     '''
@@ -105,9 +125,8 @@ def serve():
 
         git_url = msg['url']
         ide_command = msg['ideCommand']
-        code_location = msg['codeLocation']
         thread = threading.Thread(target=start_project, args=(
-            git_url, ide_command, code_location))
+            git_url, ide_command))
         # FIXME thread.daemon = True
         thread.start()
 
