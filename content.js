@@ -36,7 +36,6 @@ const decorateGithub = () => {
   }
 
   const findUrl = function() {
-    console.log('findUrl')
     const clibpboardCopyElts = document.querySelectorAll('clipboard-copy')
     for (const elt of clibpboardCopyElts) {
       const val = elt.getAttribute('value')
@@ -46,7 +45,6 @@ const decorateGithub = () => {
   }
 
   const createButton = function() {
-    console.log('createButton')
     const templateParent = document.querySelector('a[data-ga-click="Repository, download zip, location:repo overview"]')
     if (templateParent == null) {
       console.error('cannot find template element to create our button')
@@ -74,7 +72,6 @@ const decorateGithub = () => {
   if (theButton == null) return false
 
   const buttonUpdater = (text, isEnabled) => {
-    console.log('buttonUpdater')
     theButton.innerText = text
     if (isEnabled) {
       theButton.classList.remove('disabled')
@@ -84,7 +81,6 @@ const decorateGithub = () => {
   }
 
   const clickListener = (event) => {
-    console.log('clickListener')
     event.preventDefault()
     event.stopPropagation()
 //    if (theButton.classList.contains('my-disabled')) {

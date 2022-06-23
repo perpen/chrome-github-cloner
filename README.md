@@ -12,7 +12,7 @@ Requirements
 ------------
 
 - Chrome
-- Python 2.7 (didn't use v3 b/c of availability issues at my workplace)
+- Python >= 3.7
 
 1 Install the host script
 --------------------------
@@ -31,7 +31,7 @@ $ git clone https://github.com/perpen/chrome-github-cloner.git
 # or with ssh:
 $ git clone git@github.com:perpen/chrome-github-cloner.git
 # The last param should point to your chrome config dir
-$ python2 chrome-github-cloner/bridge.py install ~/.config/google-chrome
+$ ./chrome-github-cloner/bridge.py install ~/.config/google-chrome
 ```
 
 If this last command fails, it means the script does not know about your OS (eg

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 '''
 Used by the chrome extension for running commands on the host
 '''
@@ -12,6 +12,7 @@ import errno
 import re
 import json
 import platform
+import traceback
 from subprocess import Popen, PIPE
 
 
@@ -22,6 +23,7 @@ LOG_FILE = open(sys.argv[0] + '.out', 'w+')
 def log(*args, **kwargs):
     '''Logs to file'''
     print(*args, file=LOG_FILE, **kwargs)
+    LOG_FILE.flush()
 
 
 def run(argv, cwd=None, logger=None):
@@ -61,13 +63,13 @@ def start_project(git_url, ide_command):
             log(line)
             send(git_url, 'output', line.strip())
 
-        logger('start_project')
         cmd = ide_command % git_url
         send(git_url, 'status', 'starting %s' % cmd)
         run(['bash', '-c', "'%s'" % cmd], logger=logger)
         send(git_url, 'status', 'complete')
 
     except Exception as exc:
+        log(traceback.format_exc())
         send(git_url, 'output', str(exc))
         send(git_url, 'status', 'error')
 
@@ -106,25 +108,28 @@ def start_project_with_clone(git_url, ide_command, code_location):
 
 def send(target, name, value):
     ''' Send a message to the extension '''
-    msg = json.dumps({"target": target, "data": {name: value}})
-    sys.stdout.write(struct.pack('I', len(msg)))
-    sys.stdout.write(msg)
-    sys.stdout.flush()
+    try:
+        msg = json.dumps({"target": target, "data": {
+                         name: value}}).encode('utf-8')
+        sys.stdout.buffer.write(struct.pack("I", len(msg)))
+        sys.stdout.buffer.write(msg)
+        sys.stdout.buffer.flush()
+    except IOError:
+        log(traceback.format_exc())
 
 
 def serve():
     ''' Serves requests from the extension '''
     while True:
-        text_length_bytes = sys.stdin.read(4)
+        text_length_bytes = sys.stdin.buffer.read(4)
         if len(text_length_bytes) == 0:
-            sys.exit(0)
+            break
         text_length = struct.unpack('i', text_length_bytes)[0]
+        text = json.loads(sys.stdin.buffer.read(text_length))
 
-        text = sys.stdin.read(text_length).decode('utf-8')
-        msg = json.loads(text)
-
-        git_url = msg['url']
-        ide_command = msg['ideCommand']
+        git_url = text['url']
+        ide_command = text['ideCommand']
+        # log(f'git_url={git_url} ide_command={ide_command}')
         thread = threading.Thread(target=start_project, args=(
             git_url, ide_command))
         # FIXME thread.daemon = True
@@ -196,6 +201,6 @@ if len(sys.argv) == 1 or not sys.argv[1].startswith('chrome-extension:'):
 try:
     log('serving')
     serve()
-except Exception as e:
-    log(e)
+except Exception:
+    log(traceback.format_exc())
     sys.exit(1)
